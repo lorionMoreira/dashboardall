@@ -1,0 +1,15 @@
+services:
+  dashboard-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: dev  # <--- IMPORTANT: Targets Stage 2
+    container_name: dashboard-frontend-dev
+    # Fixes permissions on Linux
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
