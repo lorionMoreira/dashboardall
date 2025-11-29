@@ -6,5 +6,3 @@ services:
       target: prod # <--- IMPORTANT: Targets Stage 4 (Nginx)
     container_name: dashboard-frontend-prod
     restart: always # Auto-restart if the Pi reboots
-    ports:
-      - "9007:80" # Serve on standard HTTP port
