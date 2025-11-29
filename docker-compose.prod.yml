@@ -6,3 +6,8 @@ services:
       target: prod # <--- IMPORTANT: Targets Stage 4 (Nginx)
     container_name: dashboard-frontend-prod
     restart: always # Auto-restart if the Pi reboots
+
+networks:
+  master_proxy_default:
+    external: true
+    name: master_proxy_default  # 👈 exactly as shown in your screenshot
