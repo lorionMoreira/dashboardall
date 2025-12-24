@@ -1,0 +1,38 @@
+name: Deploy to Pi via Tailscale
+
+on:
+  push:
+    branches: [ "main" ]  # Or "master" if your branch is named that
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+          hostname: github-actions-runner
+          version: latest
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PI_TAILSCALE_IP }}
+          username: homelinux                 # <--- I updated this based on your error log
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Stop the script if any command fails
+            set -e
+            
+            # Navigate to your project folder
+            # ⚠️ CHANGE THIS to the actual folder name on your Pi
+            cd /home/homelinux/projects/dashboardall
+            
+            # Pull the latest changes from GitHub
+            git pull origin main
+            
+            # Rebuild and restart the containers
+            docker compose up -d --build
+            
