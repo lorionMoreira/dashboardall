@@ -13,3 +13,5 @@ networks:
   master_proxy_default:
     external: true
     name: master_proxy_default  # 👈 exactly as shown in your screenshot
+
+# docker compose -f docker-compose.prod.yml up -d --build
