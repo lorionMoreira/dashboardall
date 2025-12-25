@@ -37,5 +37,5 @@ jobs:
             docker compose -f docker-compose.prod.yml up -d --build
 
             # Restart Nginx so it finds the new container IP
-            docker exec master_nginx nginx -s reload
+            docker restart master_nginx
             
