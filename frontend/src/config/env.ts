@@ -10,7 +10,7 @@ const config = {
     apiBaseUrl: 'http://localhost:8080'
   },
   production: {
-    apiBaseUrl: 'http://raspberrypi.tail6b11e4.ts.net', // Replace with your production URL
+    apiBaseUrl: 'https://raspberrypi.tail6b11e4.ts.net', // Replace with your production URL
   },
 };
 
