@@ -1,10 +1,32 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
+import { protectedService } from '../services/protectedService'
 
 function Home() {
   const [count, setCount] = useState(0)
+  const [message, setMessage] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string>('')
+
+  useEffect(() => {
+    const fetchProtectedData = async () => {
+      try {
+        setLoading(true)
+        const data = await protectedService.test()
+        setMessage(data.message)
+        setError('')
+      } catch (err) {
+        console.error('Failed to fetch protected data:', err)
+        setError('Failed to load protected data. Please make sure you are logged in.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProtectedData()
+  }, [])
 
   return (
     <div>
@@ -17,6 +39,21 @@ function Home() {
         </a>
       </div>
       <h1>Home Page56</h1>
+      
+      {loading && <p>Loading...</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {message && (
+        <div style={{ 
+          padding: '20px', 
+          margin: '20px 0', 
+          backgroundColor: '#4CAF50', 
+          color: 'white', 
+          borderRadius: '5px' 
+        }}>
+          <strong>Backend Message:</strong> {message}
+        </div>
+      )}
+      
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
